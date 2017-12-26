@@ -34,3 +34,5 @@ Route::group(['prefix' => 'orders'], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('image-upload', array('as' => 'post_upload_image', 'uses' => 'UploadController@imageUpload'));

@@ -40,8 +40,9 @@ class RecipeController extends Controller
     public function list(Request $request)
     {
         $menu = 'recipe';
+        $recipes = Recipe::orderBy('updated_at', 'DESC')->paginate(15);
 
-        return view('recipes.list', compact('menu'));
+        return view('recipes.list', compact('menu', 'recipes'));
     }
 
     /**

@@ -36,7 +36,17 @@
                 </div>
                 <div class="form-group">
                   <label for="thumb">Ảnh đại diện: </label>
-                  <input type="file" id="thumb" name="thumb" accept="image/*" required>
+                  <div class="row">
+                  <div class="col-xs-8">
+                    <input type="url" class="form-control" name="thumb" id="thumb" placeholder="Link ảnh đại diện" required>
+                  </div>
+                  <div class="col-xs-1">
+                    <label class="form-control center" style="border: none;">-Hoặc-</label>
+                  </div>
+                  <div class="col-xs-3">
+                    <button class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</button>
+                  </div>
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -53,8 +63,8 @@
               	</div>
 
               	<div class="form-group">
-					<div style="padding-bottom: 6px;">
-	                	<label for="ingredient">Tiến hành: </label>
+					       <div style="padding-bottom: 6px;">
+	                	<label for="ingredient">Các bước tiến hành: </label>
 		          	</div>
 
 	                <textarea id="preparation" class="form-control" style="height: 250px" name="preparation">
@@ -62,7 +72,7 @@
               	</div>
 
               	<div class="form-group">
-              		<label for="price">Giá dự kiến</label>
+              		<label for="price">Giá dự kiến: (VNĐ)</label>
 	                <input type="number" class="form-control" name="price" id="price">
               	</div>
 
@@ -79,27 +89,30 @@
     </div>
   </div>
 
-  <div class="modal modal-wide fade" id="my_modal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Thêm nội dung cho mục: </h4>
-              </div>
-              <div class="modal-body">
-                <textarea id="my_textarea"></textarea>
-              </div>	
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
+  <div class="modal fade" id="modal-upload">
+    <div class="modal-dialog">
+      <form method='post' action='' enctype="multipart/form-data">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Upload ảnh: </h4>
         </div>
-        <!-- /.modal -->
+        <div class="modal-body">
+          <div id='preview'></div>
+          <input type="file" name="file" id="file" accept="image/*">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <input type="button" class="btn btn-primary" id="upload" value="Upload"></input>
+        </div>
+      </div>
+      </form>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
 </section>
 
         
@@ -110,20 +123,42 @@
 
 <script src="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
 
-<script type="text/javascript" src="https://unpkg.com/ccxt"></script>
+<script type="text/javascript">
 
+  $(document).ready(function(){
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
 
-
-<script>
-	console.log (ccxt.exchanges) // print all available exchanges
-
-
-  $(function () {
-    //Add text editor
     $("#ingredient").wysihtml5();
     $("#preparation").wysihtml5();
-  });
 
+  $('#upload').click(function(){
+
+    var fd = new FormData();
+    var files = $('#file')[0].files[0];
+    fd.append('file',files);
+    // AJAX request
+    $.ajax({
+      url: '/image-upload',
+      type: 'POST',
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function(response){
+        if(response != 0){
+          // Show image preview
+          $('#thumb').val(response['data']);
+          $('#preview').append("<img src='http://localhost:8888/"+response['data']+"' width='100' height='100' style='display: inline-block;'>");
+        }else{
+          alert('File not uploaded!');
+        }
+      }
+    });
+  });
+});
 </script>
 
 @endsection

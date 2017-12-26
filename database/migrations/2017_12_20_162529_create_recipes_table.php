@@ -20,7 +20,8 @@ class CreateRecipesTable extends Migration
             $table->text('ingredient')->nullable();
             $table->text('preparation')->nullable();
             $table->text('video')->nullable();
-            $table->string('price');
+            $table->string('price')->nullable();
+            $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });
     }
