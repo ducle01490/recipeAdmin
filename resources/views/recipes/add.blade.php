@@ -21,6 +21,9 @@
           <div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">Tạo bài viết</h3>
+              @if(isset($message))
+                <h4>{{$message}}</h4>
+              @endif
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -33,7 +36,7 @@
                 </div>
                 <div class="form-group">
                   <label for="thumb">Ảnh đại diện: </label>
-                  <input type="file" id="thumb" accept="image/*" required>
+                  <input type="file" id="thumb" name="thumb" accept="image/*" required>
                 </div>
 
                 <div class="form-group">

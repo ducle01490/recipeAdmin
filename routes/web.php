@@ -31,3 +31,6 @@ Route::group(['prefix' => 'orders'], function () {
 	// Lay danh sach recipes
 	Route::get('list', array('as' => 'get_list_orders', 'uses' => 'OrderController@list'));
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
