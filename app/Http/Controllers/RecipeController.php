@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
 
 class RecipeController extends Controller
 {
@@ -33,7 +37,9 @@ class RecipeController extends Controller
      */
     public function list(Request $request)
     {
-        return view('recipes.list');
+        $menu = 'recipe';
+
+        return view('recipes.list', compact('menu'));
     }
 
     /**
@@ -43,6 +49,13 @@ class RecipeController extends Controller
      */
     public function add(Request $request)
     {
-        return view('recipes.add');
+        $menu = 'recipe';
+
+        if ($request->isMethod('post'))
+        {
+            dd(Input::all());
+        }
+
+        return view('recipes.add', compact('menu'));
     }
 }

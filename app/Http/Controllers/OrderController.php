@@ -33,6 +33,8 @@ class OrderController extends Controller
      */
     public function list(Request $request)
     {
-        return view('orders.list');
+        $menu = 'order';
+
+        return view('orders.list', compact('menu'));
     }
 }

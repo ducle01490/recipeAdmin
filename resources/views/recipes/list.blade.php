@@ -20,7 +20,13 @@
           </div>
         </div>
         <!-- /.box-header -->
-        <div class="box-body table-responsive no-padding">
+        <div class="box-body">
+          <div>
+            <a class="btn btn-success" href="{{route('post_add_recipe')}}">
+                Tạo bài viết
+            </a>
+          </div>
+
           <table class="table table-hover">
             <tr>
               <th>ID</th>

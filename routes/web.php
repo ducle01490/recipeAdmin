@@ -14,7 +14,7 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', array('as' => 'honepage', 'uses' => 'RecipeController@list'));
+Route::get('/', array('as' => 'homepage', 'uses' => 'OrderController@list'));
 
 Auth::routes();
 

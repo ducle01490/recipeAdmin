@@ -43,7 +43,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{ route('homepage') }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
@@ -80,8 +80,13 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">Sign out</a>
                 </div>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
               </li>
             </ul>
           </li>
@@ -96,14 +101,14 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active">
-          <a href="#">
+        <li class="{{(isset($menu) && $menu =='order')?'active':''}}">
+          <a href="{{route('get_list_orders')}}">
             <i class="fa fa-files-o"></i>
             <span>Đơn hàng</span>
           </a>
         </li>
-        <li>
-          <a href="#">
+        <li class="{{(isset($menu) && $menu =='recipe')?'active':''}}">
+          <a href="{{route('get_list_recipes')}}">
             <i class="fa fa-files-o"></i>
             <span>Thực đơn</span>
           </a>
@@ -157,14 +162,15 @@
 <!-- Bootstrap WYSIHTML5 -->
 <!-- <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script> -->
 <!-- Slimscroll -->
-<!-- <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script> -->
+<script src="{{asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
 <!-- FastClick -->
 <!-- <script src="bower_components/fastclick/lib/fastclick.js"></script> -->
 <!-- AdminLTE App -->
-<!-- <script src="dist/js/adminlte.min.js"></script> -->
+<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="dist/js/pages/dashboard.js"></script> -->
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="dist/js/demo.js"></script> -->
+@yield('script')
 </body>
 </html>
