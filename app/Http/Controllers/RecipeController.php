@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 
 use App\Recipe;
+use Response;
 
 class RecipeController extends Controller
 {
@@ -45,6 +46,17 @@ class RecipeController extends Controller
         return view('recipes.list', compact('menu', 'recipes'));
     }
 
+    public function updateStatus(Request $request, $recipeId, $status)
+    {
+        $recipe = Recipe::find($recipeId);
+        if ($recipe) {
+            $recipe->status = $status;
+            $recipe->save();
+        }
+
+        return Redirect::back();
+    }
+
     /**
      * Create new recipe
      *
@@ -63,19 +75,59 @@ class RecipeController extends Controller
             $recipe->preparation = Input::get('preparation');
             $recipe->video = Input::get('video');
             $recipe->price = Input::get('price');
+            $recipe->serving = Input::get('serving');
+            $recipe->status = Input::get('status');
 
             $recipe->save();
-            $message = "";
             if ($recipe->id) {
-                $message = "Tạo bài viết thành công!";
-                return view('recipes.add', compact('menu', 'message'));
+                return Redirect::back()->with('flash_notice', 'Tạo bài viết thành công!');
             } else {
                 //save fail
-                $message = "Tạo bài viết lỗi!";
-                return view('recipes.add', compact('menu', 'message'));
+                return Redirect::back()->with('flash_error', 'Tạo bài viết lỗi!');
             }
         }
 
         return view('recipes.add', compact('menu'));
+    }
+
+    public function edit(Request $request, $recipeId)
+    {
+        $menu = 'recipe';
+        $recipe = Recipe::find($recipeId);
+
+        if ($request->isMethod('post'))
+        {
+            $recipe->title = Input::get('title');
+            $recipe->thumb = Input::get('thumb');
+            $recipe->ingredient = Input::get('ingredient');
+            $recipe->preparation = Input::get('preparation');
+            $recipe->video = Input::get('video');
+            $recipe->price = Input::get('price');
+            $recipe->serving = Input::get('serving');
+            $recipe->status = Input::get('status');
+
+            $recipe->save();
+
+            return Redirect::back()->with('flash_notice', 'Cập nhật thành công')->with(compact('recipe'));
+        }
+
+        return view('recipes.edit', compact('menu', 'recipe'));
+    }
+
+    public function delete(Request $request, $recipeId)
+    {
+        if ($request->isMethod('post'))
+        {
+            $recipe = Recipe::find($recipeId);
+            if ($recipe) {
+                $recipe->delete();
+            }
+
+            if ($request->ajax()) {
+                return Response::json(array('status'=>'success', 'messages' => 'Xoá thành công', 'recipeId' => $recipeId));
+            }
+
+            return Redirect::back()->with('flash_notice', 'Xoá thành công');
+        }
     }
 }

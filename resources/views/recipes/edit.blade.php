@@ -20,11 +20,11 @@
           <!-- general form elements -->
           <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">Tạo bài viết</h3>
+              <h3 class="box-title">Sửa bài viết</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" method="POST" action="{{route('post_add_recipe')}}">
+            <form role="form" method="POST" action="{{route('post_update_recipe', $recipe->id)}}">
             	<input name="_token" type="hidden" value="{{ csrf_token() }}"/>
               <div class="box-body">
                 @if (session('flash_notice'))
@@ -42,17 +42,17 @@
                 @endif
                 <div class="form-group">
                   <label for="title">Tiêu đề: </label>
-                  <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
+                  <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="{{old('title')?old('title'):$recipe->title}}" required>
                 </div>
                 <div class="form-group">
                   <label for="serving">Món ăn dành cho bao nhiêu khẩu phần ăn: </label>
-                  <input type="text" class="form-control" name="serving" id="serving" placeholder="Servings" value="4" required>
+                  <input type="text" class="form-control" name="serving" id="serving" placeholder="Servings" value="{{old('serving')?old('serving'):$recipe->serving}}" required>
                 </div>
                 <div class="form-group">
                   <label for="thumb">Ảnh đại diện: </label>
                   <div class="row">
                   <div class="col-xs-8">
-                    <input type="url" class="form-control" name="thumb" id="thumb" placeholder="Link ảnh đại diện" required>
+                    <input type="url" class="form-control" name="thumb" id="thumb" placeholder="Link ảnh đại diện" value="{{old('thumb')?old('thumb'):$recipe->thumb}}" required>
                   </div>
                   <div class="col-xs-1">
                     <label class="form-control center" style="border: none;">-Hoặc-</label>
@@ -65,14 +65,14 @@
 
                 <div class="form-group">
                   <label for="title">Video link: </label>
-                  <input type="url" class="form-control" name="video" id="video" placeholder="Video link" required>
+                  <input type="url" class="form-control" name="video" id="video" placeholder="Video link" value="{{old('video')?old('video'):$recipe->video}}" required>
                 </div>
 
                 <div class="form-group">
                 	<div style="padding-bottom: 6px;">
 	                	<label for="ingredient">Chuẩn bị: </label>
 		          	</div>
-	                <textarea id="ingredient" class="form-control" style="height: 250px" name="ingredient">
+	                <textarea id="ingredient" class="form-control" style="height: 250px" name="ingredient">{{old('ingredient')?old('ingredient'):$recipe->ingredient}}
 	                </textarea>
               	</div>
 
@@ -82,19 +82,19 @@
 		          	</div>
 
 	                <textarea id="preparation" class="form-control" style="height: 250px" name="preparation">
-	                </textarea>
+	                {{old('ingredient')?old('ingredient'):$recipe->ingredient}}</textarea>
               	</div>
 
               	<div class="form-group">
               		<label for="price">Giá dự kiến: (VNĐ)</label>
-	                <input type="number" class="form-control" name="price" id="price">
+	                <input type="number" class="form-control" name="price" id="price" value="{{old('price')?old('price'):$recipe->price}}">
               	</div>
 
                 <div class="form-group">
                   <label for="status">Có Publish bài viết này không?</label>
                   <select class="form-control" name="status" id="status">
-                    <option value="0">Chưa publish</option>
-                    <option value="1">Publish luôn</option>
+                    <option value="0" <?php if(old('status')) {if(old('status') == 0){echo 'selected';}} elseif($recipe->status == 0){echo 'selected';} ?>>Chưa publish</option>
+                    <option value="1" <?php if(old('status')) {if(old('status') == 1){echo 'selected';}} elseif($recipe->status == 1){echo 'selected';} ?>>Publish luôn</option>
                   </select>
                 </div>
 
@@ -102,7 +102,7 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-success">Thêm</button>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
               </div>
             </form>
           </div>

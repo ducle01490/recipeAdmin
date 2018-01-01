@@ -111,6 +111,12 @@
         <li class="{{(isset($menu) && $menu =='recipe')?'active':''}}">
           <a href="{{route('get_list_recipes')}}">
             <i class="fa fa-files-o"></i>
+            <span>Món ăn</span>
+          </a>
+        </li>
+        <li class="{{(isset($menu) && $menu =='menu')?'active':''}}">
+          <a href="{{route('get_list_menus', "2")}}">
+            <i class="fa fa-files-o"></i>
             <span>Thực đơn</span>
           </a>
         </li>
