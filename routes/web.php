@@ -18,7 +18,9 @@ Route::get('/', array('as' => 'homepage', 'uses' => 'OrderController@list'));
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', array('as' => 'home', 'uses' => 'OrderController@list'));
+
+// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'recipes'], function () {
 	// Lay danh sach recipes
@@ -47,8 +49,8 @@ Route::group(['prefix' => 'menus'], function () {
 	Route::any('delete/{menuId}', array('as' => 'delete_menu', 'uses' => 'PlanController@delete'));
 });
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('image-upload', array('as' => 'post_upload_image', 'uses' => 'UploadController@imageUpload'));
