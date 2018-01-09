@@ -26,87 +26,99 @@
       <!-- /.box-header -->
       <!-- form start -->
       <form role="form" method="POST" action="{{route('create_menu')}}">
-       <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
-       <div class="box-body">
-        @if (session('flash_notice'))
-        <div class="alert alert-success alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          {{Session::get('flash_notice')}}
-        </div>
-        @endif
+        <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
+        <div class="box-body">
+          @if (session('flash_notice'))
+          <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{Session::get('flash_notice')}}
+          </div>
+          @endif
 
-        @if (session('flash_error'))
-        <div class="alert alert-danger alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          {{Session::get('flash_error')}}
+          @if (session('flash_error'))
+          <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{Session::get('flash_error')}}
+          </div>
+          @endif
+          <div class="form-group">
+            <label for="title">Tiêu đề: </label>
+            <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
+          </div>
+          <div class="form-group">
+            <label for="serving">Món ăn dành cho bao nhiêu khẩu phần ăn: </label>
+            <input type="text" class="form-control" name="serving" id="serving" placeholder="Servings" value="4" required>
+          </div>
+          <div class="form-group">
+            <label for="thumb">Ảnh đại diện: </label>
+            <div class="row">
+              <div class="col-xs-8">
+                <input type="url" class="form-control" name="thumb" id="thumb" placeholder="Link ảnh đại diện" required>
+              </div>
+              <div class="col-xs-1">
+                <label class="form-control center" style="border: none;">-Hoặc-</label>
+              </div>
+              <div class="col-xs-3">
+                <button class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="title">Video link: </label>
+            <input type="url" class="form-control" name="video" id="video" placeholder="Video link" required>
+          </div>
+
+          <div class="form-group">
+            <div style="padding-bottom: 6px;">
+              <label for="ingredient">Chuẩn bị: </label>
+            </div>
+            <textarea id="ingredient" class="form-control" style="height: 250px" name="ingredient">
+            </textarea>
+          </div>
+
+          <div class="form-group">
+           <div style="padding-bottom: 6px;">
+            <label for="ingredient">Các bước tiến hành: </label>
+          </div>
+
+          <textarea id="preparation" class="form-control" style="height: 250px" name="preparation">
+          </textarea>
         </div>
-        @endif
+
         <div class="form-group">
-          <label for="title">Tiêu đề: </label>
-          <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
+          <label for="price">Giá dự kiến: (VNĐ)</label>
+          <input type="number" class="form-control" name="price" id="price">
         </div>
+
         <div class="form-group">
-          <label for="serving">Số người ăn: </label>
-          <select class="form-control" name="serving" id="serving">
-            <option value="2">2 người</option>
-            <option value="7">7 người</option>
+          <label for="status">Có Publish bài viết này không?</label>
+          <select class="form-control" name="status" id="status">
+            <option value="0">Chưa publish</option>
+            <option value="1">Publish luôn</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="thumb">Ảnh đại diện: </label>
-          <div class="row">
-            <div class="col-xs-8">
-              <input type="url" class="form-control" name="thumb" id="thumb" placeholder="Link ảnh đại diện" required>
+          <label>Ngày bán:</label>
+          <div class="input-group date">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
             </div>
-            <div class="col-xs-1">
-              <label class="form-control center" style="border: none;">-Hoặc-</label>
-            </div>
-            <div class="col-xs-3">
-              <button class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</button>
-            </div>
+            <input type="text" class="form-control pull-right" id="publishDate" name="publishDate">
           </div>
+          <!-- /.input group -->
         </div>
-        <div class="form-group">
-         <div style="padding-bottom: 6px;">
-          <label for="item">Nguyên liệu: </label>
-        </div>
-        <textarea id="item" class="form-control" style="height: 250px" name="item">
-        </textarea>
+
       </div>
+      <!-- /.box-body -->
 
-      <div class="form-group">
-        <label for="price">Giá dự kiến: (VNĐ)</label>
-        <input type="number" class="form-control" name="price" id="price">
+      <div class="box-footer">
+        <button type="submit" class="btn btn-success">Thêm</button>
       </div>
+    </form>
 
-      <div class="form-group">
-        <label>Ngày bán:</label>
-        <div class="input-group date">
-          <div class="input-group-addon">
-            <i class="fa fa-calendar"></i>
-          </div>
-          <input type="text" class="form-control pull-right" id="publishDate" name="publishDate">
-        </div>
-        <!-- /.input group -->
-      </div>
-
-      <div class="form-group">
-        <label for="status">Có Publish bài viết này không?</label>
-        <select class="form-control" name="status" id="status">
-          <option value="0">Chưa publish</option>
-          <option value="1">Publish luôn</option>
-        </select>
-      </div>
-
-    </div>
-    <!-- /.box-body -->
-
-    <div class="box-footer">
-      <button type="submit" class="btn btn-success">Thêm</button>
-    </div>
-  </form>
-</div>
-<!-- /.box -->
+  </div>
+  <!-- /.box -->
 </div>
 </div>
 
@@ -154,7 +166,8 @@
       }
     });
 
-    $("#item").wysihtml5();
+    $("#ingredient").wysihtml5();
+    $("#preparation").wysihtml5();
     $('#publishDate').datepicker({
       autoclose: true
     })

@@ -40,10 +40,10 @@ class PlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list(Request $request, $serving)
+    public function list(Request $request, $serving='')
     {
         $menu = 'menu';
-        $menuItems = Menu::where('serving', $serving)->orderBy('updated_at', 'DESC')->paginate(15);
+        $menuItems = Menu::orderBy('updated_at', 'DESC')->paginate(15);
 
         return view('menus.list', compact('menu', 'menuItems', 'serving'));
     }
@@ -84,7 +84,9 @@ class PlanController extends Controller
             $menuItem = new Menu();
             $menuItem->title = Input::get('title');
             $menuItem->thumb = Input::get('thumb');
-            $menuItem->item = Input::get('item');
+            $menuItem->ingredient = Input::get('ingredient');
+            $menuItem->preparation = Input::get('preparation');
+            $menuItem->video = Input::get('video');
             $menuItem->price = Input::get('price');
             $menuItem->serving = Input::get('serving');
             $menuItem->status = Input::get('status');
@@ -114,7 +116,9 @@ class PlanController extends Controller
         {
             $menuItem->title = Input::get('title');
             $menuItem->thumb = Input::get('thumb');
-            $menuItem->item = Input::get('item');
+            $menuItem->ingredient = Input::get('ingredient');
+            $menuItem->preparation = Input::get('preparation');
+            $menuItem->video = Input::get('video');
             $menuItem->price = Input::get('price');
             $menuItem->serving = Input::get('serving');
             $menuItem->status = Input::get('status');

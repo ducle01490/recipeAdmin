@@ -31,14 +31,14 @@
       <!-- /.box-header -->
       <div class="box-body table-responsive no-padding">
         <p>
-        <div class="row">
+  <!--       <div class="row">
           <div class="col-md-12 text-center">
           <div class="btn-group">
             <a href="{{route('get_list_menus', "2")}}" type="button" class="btn {{$serving==2?'btn-success':'btn-default'}}">Thực đơn cho 2 người</a>
             <a href="{{route('get_list_menus', "7")}}" type="button" class="btn {{$serving==7?'btn-success':'btn-default'}}">Thực đơn cho 7 người</a>
           </div>
         </div>
-        </div>
+        </div> -->
       </p>
 
         <table class="table table-hover table-striped table-bordered">
@@ -47,7 +47,9 @@
               <th>ID</th>
               <th>Tiêu đề</th>
               <th>Ảnh thumb</th>
-              <th>Các nguyên liệu</th>
+              <th>Nguyên liệu</th>
+              <th>Tiến hành</th>
+              <th>Video</th>
               <th>Giá</th>
               <th>Trạng thái</th>
               <th>Cập nhật</th>
@@ -56,13 +58,17 @@
             </tr>
           </thead>
           @foreach($menuItems as $menuItem)
-          <tr>
+          <tr id="row-{{$menuItem->id}}">
             <td>{{$menuItem->id}}</td>
-            <td>{{$menuItem->title}}</td>
-            <td><img src="{{$menuItem->thumb}}" style="height: 90px; width: auto;"></img></td>
+            <td class="title">{{$menuItem->title}}</td>
+            <td><img class="image" src="{{$menuItem->thumb}}" style="height: 90px; width: auto;"></img></td>
             <td>
-              {!!substr($menuItem->item, 0, strpos($menuItem->item, '</li>'))!!}...
+              {!!substr($menuItem->ingredient, 0, strpos($menuItem->ingredient, '</li>'))!!}...
             </td>
+            <td>
+              {!!substr($menuItem->preparation, 0, strpos($menuItem->preparation, '</li>'))!!}...
+            </td>
+            <td><a href="{{$menuItem->video}}" target="_blank">{{$menuItem->video}}</a></td>
             <td>{{number_format($menuItem->price, 0, ',', '.')}} VNĐ</td>
             <td>
               @if($menuItem->status == 1)
@@ -73,9 +79,9 @@
             </td>
             <td>
               @if($menuItem->status == 0)
-              <a href="{{route("update_menu_status", array("menuId" => $menuItem->id, "status" => 1))}}" class="btn btn-xs btn-danger">Publish</a>
+              <a href="{{route("update_menu_status", array("recipeId" => $menuItem->id, "status" => 1))}}" class="btn btn-xs btn-danger">Publish</a>
               @else
-              <a href="{{route("update_menu_status", array("menuId" => $menuItem->id, "status" => 0))}}" class="btn btn-xs btn-warning">Unpublish</a>
+              <a href="{{route("update_menu_status", array("recipeId" => $menuItem->id, "status" => 0))}}" class="btn btn-xs btn-warning">Unpublish</a>
               @endif
             </td>
             <td>{{$menuItem->publishDate}}</td>

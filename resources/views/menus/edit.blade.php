@@ -24,61 +24,80 @@
         <h3 class="box-title">Sửa bài viết</h3>
       </div>
       <!-- /.box-header -->
-      <!-- form start -->
-      <form role="form" method="POST" action="{{route('post_update_menu', $menuItem->id)}}">
-       <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
-       <div class="box-body">
-        @if (session('flash_notice'))
-        <div class="alert alert-success alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          {{Session::get('flash_notice')}}
-        </div>
-        @endif
+            <!-- form start -->
+            <form role="form" method="POST" action="{{route('post_update_menu', $menuItem->id)}}">
+              <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
+              <div class="box-body">
+                @if (session('flash_notice'))
+                  <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    {{Session::get('flash_notice')}}
+                  </div>
+                @endif
 
-        @if (session('flash_error'))
-        <div class="alert alert-danger alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          {{Session::get('flash_error')}}
-        </div>
-        @endif
-        <div class="form-group">
-          <label for="title">Tiêu đề: </label>
-          <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="{{old('title')?old('title'):$menuItem->title}}" required>
-        </div>
-        <div class="form-group">
-          <label for="serving">Số người ăn: </label>
-          <select class="form-control" name="serving" id="serving">
-            <option value="2" <?php if(old('serving')) {if(old('serving') == 2){echo 'selected';}} elseif($menuItem->serving == 0){echo 'selected';} ?>>2 người</option>
-            <option value="7" <?php if(old('serving')) {if(old('serving') == 7){echo 'selected';}} elseif($menuItem->serving == 1){echo 'selected';} ?>>7 người</option>
-          </select>
-        </div>
+                @if (session('flash_error'))
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    {{Session::get('flash_error')}}
+                  </div>
+                @endif
+                <div class="form-group">
+                  <label for="title">Tiêu đề: </label>
+                  <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="{{old('title')?old('title'):$menuItem->title}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="serving">Món ăn dành cho bao nhiêu khẩu phần ăn: </label>
+                  <input type="text" class="form-control" name="serving" id="serving" placeholder="Servings" value="{{old('serving')?old('serving'):$menuItem->serving}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="thumb">Ảnh đại diện: </label>
+                  <div class="row">
+                  <div class="col-xs-8">
+                    <input type="url" class="form-control" name="thumb" id="thumb" placeholder="Link ảnh đại diện" value="{{old('thumb')?old('thumb'):$menuItem->thumb}}" required>
+                  </div>
+                  <div class="col-xs-1">
+                    <label class="form-control center" style="border: none;">-Hoặc-</label>
+                  </div>
+                  <div class="col-xs-3">
+                    <button class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</button>
+                  </div>
+                  </div>
+                </div>
 
-        <div class="form-group">
-          <label for="thumb">Ảnh đại diện: </label>
-          <div class="row">
-            <div class="col-xs-8">
-              <input type="url" class="form-control" name="thumb" id="thumb" placeholder="Link ảnh đại diện" value="{{old('thumb')?old('thumb'):$menuItem->thumb}}" required>
-            </div>
-            <div class="col-xs-1">
-              <label class="form-control center" style="border: none;">-Hoặc-</label>
-            </div>
-            <div class="col-xs-3">
-              <button class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</button>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-         <div style="padding-bottom: 6px;">
-          <label for="item">Nguyên liệu: </label>
-        </div>
-        <textarea id="item" class="form-control" style="height: 250px" name="item">
-          {{old('item')?old('item'):$menuItem->item}}</textarea>
-        </div>
+                <div class="form-group">
+                  <label for="title">Video link: </label>
+                  <input type="url" class="form-control" name="video" id="video" placeholder="Video link" value="{{old('video')?old('video'):$menuItem->video}}" required>
+                </div>
 
-        <div class="form-group">
-          <label for="price">Giá dự kiến: (VNĐ)</label>
-          <input type="number" class="form-control" name="price" id="price" value="{{old('price')?old('price'):$menuItem->price}}">
-        </div>
+                <div class="form-group">
+                  <div style="padding-bottom: 6px;">
+                    <label for="ingredient">Chuẩn bị: </label>
+                </div>
+                  <textarea id="ingredient" class="form-control" style="height: 250px" name="ingredient">{{old('ingredient')?old('ingredient'):$menuItem->ingredient}}
+                  </textarea>
+                </div>
+
+                <div class="form-group">
+                 <div style="padding-bottom: 6px;">
+                    <label for="ingredient">Các bước tiến hành: </label>
+                </div>
+
+                  <textarea id="preparation" class="form-control" style="height: 250px" name="preparation">
+                  {{old('ingredient')?old('ingredient'):$menuItem->ingredient}}</textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="price">Giá dự kiến: (VNĐ)</label>
+                  <input type="number" class="form-control" name="price" id="price" value="{{old('price')?old('price'):$menuItem->price}}">
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Có Publish bài viết này không?</label>
+                  <select class="form-control" name="status" id="status">
+                    <option value="0" <?php if(old('status')) {if(old('status') == 0){echo 'selected';}} elseif($menuItem->status == 0){echo 'selected';} ?>>Chưa publish</option>
+                    <option value="1" <?php if(old('status')) {if(old('status') == 1){echo 'selected';}} elseif($menuItem->status == 1){echo 'selected';} ?>>Publish luôn</option>
+                  </select>
+                </div>
 
         <div class="form-group">
           <label>Ngày bán:</label>
@@ -91,21 +110,13 @@
           <!-- /.input group -->
         </div>
 
-        <div class="form-group">
-          <label for="status">Có Publish bài viết này không?</label>
-          <select class="form-control" name="status" id="status">
-            <option value="0" <?php if(old('status')) {if(old('status') == 0){echo 'selected';}} elseif($menuItem->status == 0){echo 'selected';} ?>>Chưa publish</option>
-            <option value="1" <?php if(old('status')) {if(old('status') == 1){echo 'selected';}} elseif($menuItem->status == 1){echo 'selected';} ?>>Publish luôn</option>
-          </select>
-        </div>
+              </div>
+              <!-- /.box-body -->
 
-      </div>
-      <!-- /.box-body -->
-
-      <div class="box-footer">
-        <button type="submit" class="btn btn-primary">Cập nhật</button>
-      </div>
-    </form>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+              </div>
+            </form>
   </div>
   <!-- /.box -->
 </div>
@@ -155,7 +166,8 @@
       }
     });
 
-    $("#item").wysihtml5();
+    $("#ingredient").wysihtml5();
+    $("#preparation").wysihtml5();
     $('#publishDate').datepicker({
       autoclose: true
     })
