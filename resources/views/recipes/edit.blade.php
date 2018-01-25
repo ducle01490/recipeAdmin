@@ -13,6 +13,7 @@
 </style>
 
 <link rel="stylesheet" href="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
 <section class="content">
    <div class="row">
@@ -43,6 +44,15 @@
                 <div class="form-group">
                   <label for="title">Tiêu đề: </label>
                   <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="{{old('title')?old('title'):$recipe->title}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="title">Thực đơn này có nằm trong group nào không? </label>
+                  <select class="js-example-placeholder-single js-states form-control" name="compilation" id="compilation">
+                    <option></option>
+                    @foreach($compilations as $compilation)
+                    <option value="{{$compilation->id}}" {{($recipe->compilationId==$compilation->id)?'selected':''}} >{{$compilation->title}}</option>
+                    @endforeach
+                  </select>          
                 </div>
                 <div class="form-group">
                   <label for="serving">Món ăn dành cho bao nhiêu khẩu phần ăn: </label>
@@ -143,6 +153,7 @@
 @section('script')
 
 <script src="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
 <script type="text/javascript">
 
@@ -151,6 +162,11 @@
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
+    });
+
+    $('#compilation').select2({
+        placeholder: "Chọn group hoặc để trống",
+        allowClear: true
     });
 
     $("#ingredient").wysihtml5();

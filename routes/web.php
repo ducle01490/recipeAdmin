@@ -31,6 +31,13 @@ Route::group(['prefix' => 'recipes'], function () {
 	Route::any('delete/{recipeId}', array('as' => 'delete_recipe', 'uses' => 'RecipeController@delete'));
 });
 
+Route::group(['prefix' => 'compilations'], function () {
+	// Lay danh sach recipes
+	Route::any('add', array('as' => 'post_add_compilation', 'uses' => 'CompilationController@add'));
+	Route::get('list', array('as' => 'get_list_compilations', 'uses' => 'CompilationController@list'));
+	
+});
+
 Route::group(['prefix' => 'orders'], function () {
 	// Lay danh sach recipes
 	Route::get('list', array('as' => 'get_list_orders', 'uses' => 'OrderController@list'));

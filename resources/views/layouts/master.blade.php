@@ -120,6 +120,12 @@
             <span>Thực đơn</span>
           </a>
         </li>
+        <li class="{{(isset($menu) && $menu =='compilation')?'active':''}}">
+          <a href="{{route('get_list_compilations')}}">
+            <i class="fa fa-files-o"></i>
+            <span>Danh sách tổng hợp</span>
+          </a>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

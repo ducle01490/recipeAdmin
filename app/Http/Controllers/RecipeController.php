@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 
 use App\Recipe;
+use App\Compilation;
 use Response;
 
 class RecipeController extends Controller
@@ -66,9 +67,17 @@ class RecipeController extends Controller
     {
         $menu = 'recipe';
 
+        $compilations = Compilation::all();
+
         if ($request->isMethod('post'))
         {
             $recipe = new Recipe();
+
+            if (Input::get('compilation', '') != '') {
+                  $compilation = Compilation::findOrFail(Input::get('compilation'));
+                  $recipe->compilationId = $compilation->id;
+            }
+
             $recipe->title = Input::get('title');
             $recipe->thumb = Input::get('thumb');
             $recipe->ingredient = Input::get('ingredient');
@@ -87,16 +96,24 @@ class RecipeController extends Controller
             }
         }
 
-        return view('recipes.add', compact('menu'));
+        return view('recipes.add', compact('menu', 'compilations'));
     }
 
     public function edit(Request $request, $recipeId)
     {
         $menu = 'recipe';
-        $recipe = Recipe::find($recipeId);
+        $recipe = Recipe::findOrFail($recipeId);
+        $compilations = Compilation::all();
 
         if ($request->isMethod('post'))
         {
+            if (Input::get('compilation', '') != '') {
+                  $compilation = Compilation::findOrFail(Input::get('compilation'));
+                  $recipe->compilationId = $compilation->id;
+            } else {
+                $recipe->compilationId = null;
+            }
+
             $recipe->title = Input::get('title');
             $recipe->thumb = Input::get('thumb');
             $recipe->ingredient = Input::get('ingredient');
@@ -111,7 +128,7 @@ class RecipeController extends Controller
             return Redirect::back()->with('flash_notice', 'Cập nhật thành công')->with(compact('recipe'));
         }
 
-        return view('recipes.edit', compact('menu', 'recipe'));
+        return view('recipes.edit', compact('menu', 'recipe', 'compilations'));
     }
 
     public function delete(Request $request, $recipeId)

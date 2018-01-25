@@ -12,20 +12,17 @@
 
 </style>
 
-<link rel="stylesheet" href="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-
 <section class="content">
  <div class="row">
   <div class="col-xs-12">
     <!-- general form elements -->
     <div class="box box-success">
       <div class="box-header with-border">
-        <h3 class="box-title">Tạo bài viết</h3>
+        <h3 class="box-title">Tạo bài viết tổng hợp</h3>
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form role="form" method="POST" action="{{route('post_add_recipe')}}">
+      <form role="form" method="POST" action="{{route('post_add_compilation')}}">
        <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
        <div class="box-body">
         @if (session('flash_notice'))
@@ -44,22 +41,6 @@
         <div class="form-group">
           <label for="title">Tiêu đề: </label>
           <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
-        </div>
-
-        <div class="form-group">
-          <label for="title">Thực đơn này có nằm trong group nào không? </label>
-          <select class="js-example-placeholder-single js-states form-control" name="compilation" id="compilation">
-            <option></option>
-            @foreach($compilations as $compilation)
-            <option value="{{$compilation->id}}">{{$compilation->title}}</option>
-            @endforeach
-          </select>          
-        </div>
-
-
-        <div class="form-group">
-          <label for="serving">Món ăn dành cho bao nhiêu khẩu phần ăn: </label>
-          <input type="text" class="form-control" name="serving" id="serving" placeholder="Servings" value="4" required>
         </div>
         <div class="form-group">
           <label for="thumb">Ảnh đại diện: </label>
@@ -80,29 +61,6 @@
           <label for="title">Video link: </label>
           <input type="url" class="form-control" name="video" id="video" placeholder="Video link" required>
         </div>
-
-        <div class="form-group">
-         <div style="padding-bottom: 6px;">
-          <label for="ingredient">Chuẩn bị: </label>
-        </div>
-        <textarea id="ingredient" class="form-control" style="height: 250px" name="ingredient">
-        </textarea>
-      </div>
-
-      <div class="form-group">
-        <div style="padding-bottom: 6px;">
-          <label for="ingredient">Các bước tiến hành: </label>
-        </div>
-
-        <textarea id="preparation" class="form-control" style="height: 250px" name="preparation">
-        </textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="price">Giá dự kiến: (VNĐ)</label>
-        <input type="number" class="form-control" name="price" id="price">
-      </div>
-
       <div class="form-group">
         <label for="status">Có Publish bài viết này không?</label>
         <select class="form-control" name="status" id="status">
@@ -155,9 +113,6 @@
 
 @section('script')
 
-<script src="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
-
 <script type="text/javascript">
 
   $(document).ready(function(){
@@ -166,15 +121,6 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
-
-    $('#compilation').select2({
-        placeholder: "Chọn group hoặc để trống",
-        allowClear: true
-    });
-
-    $("#ingredient").wysihtml5();
-    $("#preparation").wysihtml5();
-
     $('#upload').click(function(){
 
       var fd = new FormData();

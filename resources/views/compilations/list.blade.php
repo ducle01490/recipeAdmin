@@ -14,11 +14,11 @@
 
           <div class="input-group input-group-sm" style="width: 300px;">
             <div class="input-group-btn" style="padding-right: 20px;">
-              <a class="btn btn-sm btn-success" href="{{route('post_add_recipe')}}">Tạo bài viết</a>
+              <a class="btn btn-sm btn-success" href="{{route('post_add_compilation')}}">Tạo bài viết</a>
             </div>
             <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
             <div class="input-group-btn">
-              <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+   compilationsbutton type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
             </div>
           </div>
 
@@ -36,32 +36,19 @@
             <tr>
               <th>ID</th>
               <th>Tiêu đề</th>
-              <th>Group</th>
               <th>Ảnh thumb</th>
-              <th>Nguyên liệu</th>
-              <th>Tiến hành</th>
               <th>Video</th>
-              <th>Giá</th>
               <th>Trạng thái</th>
               <th>Cập nhật</th>
-              <th>Ngày cập nhật</th>
               <th></th>
             </tr>
           </thead>
-          @foreach($recipes as $recipe)
+          @foreach($compilations as $recipe)
           <tr id="row-{{$recipe->id}}">
             <td>{{$recipe->id}}</td>
             <td class="title">{{$recipe->title}}</td>
-            <td class="title">{{$recipe->compilationId}}</td>
             <td><img class="image" src="{{$recipe->thumb}}" style="height: 90px; width: auto;"></img></td>
-            <td>
-              {!!substr($recipe->ingredient, 0, strpos($recipe->ingredient, '</li>'))!!}...
-            </td>
-            <td>
-              {!!substr($recipe->preparation, 0, strpos($recipe->preparation, '</li>'))!!}...
-            </td>
             <td><a href="{{$recipe->video}}" target="_blank">{{$recipe->video}}</a></td>
-            <td>{{number_format($recipe->price, 0, ',', '.')}} VNĐ</td>
             <td>
               @if($recipe->status == 1)
               <span class="text-green">Publish</span>
@@ -88,7 +75,7 @@
       <!-- /.box-body -->
 
       <div class="box-footer clearfix">
-        {{ $recipes->links() }}
+        {{ $compilations->links() }}
       </div>
       <!-- /.box-footer -->
     </div>
