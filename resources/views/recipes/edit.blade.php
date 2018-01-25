@@ -92,7 +92,7 @@
 		          	</div>
 
 	                <textarea id="preparation" class="form-control" style="height: 250px" name="preparation">
-	                {{old('ingredient')?old('ingredient'):$recipe->ingredient}}</textarea>
+	                {{old('preparation')?old('preparation'):$recipe->preparation}}</textarea>
               	</div>
 
               	<div class="form-group">
