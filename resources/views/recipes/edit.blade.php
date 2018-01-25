@@ -75,7 +75,7 @@
 
                 <div class="form-group">
                   <label for="title">Video link: </label>
-                  <input type="url" class="form-control" name="video" id="video" placeholder="Video link" value="{{old('video')?old('video'):$recipe->video}}" required>
+                  <input type="url" class="form-control" name="video" id="video" placeholder="Video link" value="{{old('video')?old('video'):$recipe->video}}">
                 </div>
 
                 <div class="form-group">

@@ -31,7 +31,7 @@ class CompilationController extends Controller
      */
     public function list(Request $request)
     {
-        $menu = 'recipe';
+        $menu = 'compilation';
         $compilations = Compilation::orderBy('updated_at', 'DESC')->paginate(15);
 
         return view('compilations.list', compact('menu', 'compilations'));

@@ -78,7 +78,7 @@
 
         <div class="form-group">
           <label for="title">Video link: </label>
-          <input type="url" class="form-control" name="video" id="video" placeholder="Video link" required>
+          <input type="url" class="form-control" name="video" id="video" placeholder="Video link">
         </div>
 
         <div class="form-group">
