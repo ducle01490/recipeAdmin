@@ -61,5 +61,24 @@ class CompilationController extends Controller
         return view('compilations.add', compact('menu'));
     }
 
+    public function edit(Request $request, $compilationId)
+    {
+    	$menu = 'compilation';
+    	$compilation = Compilation::findOrFail($compilationId);
+
+        if ($request->isMethod('post'))
+        {
+            $compilation->title = Input::get('title');
+            $compilation->thumb = Input::get('thumb');
+            $compilation->video = Input::get('video');
+            $compilation->status = Input::get('status');
+
+            $compilation->save();
+
+            return Redirect::back()->with('flash_notice', 'Cập nhật thành công')->with(compact('compilation'));
+        }
+
+        return view('compilations.edit', compact('menu', 'compilation'));
+    }
 
 }

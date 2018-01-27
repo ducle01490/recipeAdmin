@@ -35,7 +35,7 @@ Route::group(['prefix' => 'compilations'], function () {
 	// Lay danh sach recipes
 	Route::any('add', array('as' => 'post_add_compilation', 'uses' => 'CompilationController@add'));
 	Route::get('list', array('as' => 'get_list_compilations', 'uses' => 'CompilationController@list'));
-	
+	Route::any('edit/{compilationId}', array('as' => 'post_edit_compilation', 'uses' => 'CompilationController@edit'));
 });
 
 Route::group(['prefix' => 'orders'], function () {

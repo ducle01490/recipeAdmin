@@ -52,7 +52,7 @@
               <label class="form-control center" style="border: none;">-Hoặc-</label>
             </div>
             <div class="col-xs-3">
-              <button class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</button>
+              <a class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</a>
             </div>
           </div>
         </div>

@@ -68,7 +68,7 @@
                     <label class="form-control center" style="border: none;">-Hoặc-</label>
                   </div>
                   <div class="col-xs-3">
-                    <button class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</button>
+                    <a class="btn btn-primary form-control" data-toggle="modal" data-target="#modal-upload">Upload ảnh</a>
                   </div>
                   </div>
                 </div>
@@ -172,7 +172,8 @@
     $("#ingredient").wysihtml5();
     $("#preparation").wysihtml5();
 
-  $('#upload').click(function(){
+  $('#upload').click(function(event){
+    event.preventDefault();
 
     var fd = new FormData();
     var files = $('#file')[0].files[0];
