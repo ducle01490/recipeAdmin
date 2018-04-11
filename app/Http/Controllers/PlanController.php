@@ -12,6 +12,8 @@ use App\Recipe;
 use App\Menu;
 use Carbon\Carbon;
 use DateTime;
+use App\Compilation;
+use Response;
 
 class PlanController extends Controller
 {
@@ -133,5 +135,22 @@ class PlanController extends Controller
         }
 
         return view('menus.edit', compact('menu', 'menuItem'));
+    }
+
+    public function delete(Request $request, $menuId)
+    {
+        if ($request->isMethod('post'))
+        {
+            $menu = Menu::find($menuId);
+            if ($menu) {
+                $menu->delete();
+            }
+
+            if ($request->ajax()) {
+                return Response::json(array('status'=>'success', 'messages' => 'Xoá thành công', 'menuId' => $menuId));
+            }
+
+            return Redirect::back()->with('flash_notice', 'Xoá thành công');
+        }
     }
 }

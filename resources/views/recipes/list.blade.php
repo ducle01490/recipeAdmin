@@ -79,7 +79,7 @@
             <td>{{$recipe->updated_at}}</td>
             <td>
               <a href="{{route('post_update_recipe', $recipe->id)}}" class="btn btn-xs btn-primary">Update</a>
-              <button class="btn btn-xs btn-danger" id="delete" data-recipe-id={{$recipe->id}} data-toggle="modal" data-target="#confirm-delete">Delete</button>
+              <button class="btn btn-xs btn-danger" id="delete" data-recipe-id="{{$recipe->id}}" data-toggle="modal" data-target="#confirm-delete">Delete</button>
             </td>
           </tr>
           @endforeach

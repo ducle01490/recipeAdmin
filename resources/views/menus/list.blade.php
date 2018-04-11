@@ -79,15 +79,15 @@
             </td>
             <td>
               @if($menuItem->status == 0)
-              <a href="{{route("update_menu_status", array("recipeId" => $menuItem->id, "status" => 1))}}" class="btn btn-xs btn-danger">Publish</a>
+              <a href="{{route("update_menu_status", array("menuId" => $menuItem->id, "status" => 1))}}" class="btn btn-xs btn-danger">Publish</a>
               @else
-              <a href="{{route("update_menu_status", array("recipeId" => $menuItem->id, "status" => 0))}}" class="btn btn-xs btn-warning">Unpublish</a>
+              <a href="{{route("update_menu_status", array("menuId" => $menuItem->id, "status" => 0))}}" class="btn btn-xs btn-warning">Unpublish</a>
               @endif
             </td>
             <td>{{$menuItem->publishDate}}</td>
             <td>
               <a href="{{route('post_update_menu', $menuItem->id)}}" class="btn btn-xs btn-primary">Update</a>
-              <button class="btn btn-xs btn-danger" id="delete" data-toggle="modal" data-target="#confirm-delete">Delete</button>
+              <button class="btn btn-xs btn-danger" id="delete" data-menu-id="{{$menuItem->id}}" data-toggle="modal" data-target="#confirm-delete">Delete</button>
             </td>
           </tr>
           @endforeach
@@ -104,23 +104,88 @@
   </div>
 </div>
 
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-menu-id="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        Xoá item 
+      <div class="modal-header" id="deleteTitle">
+        Xoá item
       </div>
       <div class="modal-body">
-        Bạn có chắc chắn xoá không?
+        <img id="deleteImg" src="" style="height: 100px; width: auto;">
+        <div>Bạn có chắc chắn xoá không?</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-danger btn-ok">Delete</a>
+        <a class="btn btn-danger btn-ok" id="deleteButton">Delete</a>
       </div>
     </div>
   </div>
 </div>
 
 </section>
+
+@endsection
+
+@section('script')
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  //triggered when modal is about to be shown
+  $('#confirm-delete').on('show.bs.modal', function(e) {
+
+    //get data-id attribute of the clicked element
+    var menuId = $(e.relatedTarget).data('menu-id');
+    var title = $("#row-"+menuId + " .title").text();
+    var img = $("#row-"+menuId + " .image").attr("src");
+
+    $("#deleteTitle").text("Xoá Item: " + title);
+    $("#deleteImg").attr("src", img);
+    $("#confirm-delete").attr('data-menu-id', menuId);
+  });
+
+  $("#deleteButton").on("click", function(e) {
+    var menuId = $("#confirm-delete").attr('data-menu-id');
+    console.log("delete: " + menuId);
+
+    // AJAX request
+    $.ajax({
+      url: '/menus/delete/' + menuId,
+      type: 'POST',
+      contentType: false,
+      processData: false,
+      success: function(response){
+        if(response != 0){
+          // Show image preview
+          $('#confirm-delete').modal('hide');
+          $("#row-"+response["menuId"]).remove();
+
+          var html = '<div class="alert alert-success alert-dismissible" style="margin: 10px;">'
+                + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                + response["messages"]
+              + '</div>';
+
+          $("#helper-text").html(html);
+        } else{
+                    var html = '<div class="alert alert-danger alert-dismissible" style="margin: 10px;">'
+                + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                + 'Lỗi xảy ra'
+              + '</div>';
+
+          $("#helper-text").html(html);
+        }
+      }
+    });
+
+  })
+
+
+
+});
+</script>
 
 @endsection
