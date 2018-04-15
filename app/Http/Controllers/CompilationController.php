@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 
 use App\Recipe;
 use App\Compilation;
@@ -79,6 +80,37 @@ class CompilationController extends Controller
         }
 
         return view('compilations.edit', compact('menu', 'compilation'));
+    }
+
+    // action = 0: delete all recipe
+    // action = 1: update all recipe
+    public function delete(Request $request, $compilationId)
+    {
+        $action = (int)($request->query('action', '0'));
+
+        if ($request->isMethod('post'))
+        {
+            $compilation = Compilation::findOrFail($compilationId);
+            if ($compilation) {
+                $compilation->delete();
+            }
+
+            if ($action == 0) {//delete
+                DB::table('recipes')
+                    ->where('compilationId', $compilationId)
+                    ->delete();
+            } else {//update
+                DB::table('recipes')
+                    ->where('compilationId', $compilationId)
+                    ->update(['compilationId' => null]);
+            }
+
+            if ($request->ajax()) {
+                return Response::json(array('status'=>'success', 'messages' => 'Xoá thành công', 'compilationId' => $compilationId));
+            }
+
+            return Redirect::back()->with('flash_notice', 'Xoá thành công');
+        }
     }
 
 }

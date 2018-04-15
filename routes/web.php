@@ -36,6 +36,7 @@ Route::group(['prefix' => 'compilations'], function () {
 	Route::any('add', array('as' => 'post_add_compilation', 'uses' => 'CompilationController@add'));
 	Route::get('list', array('as' => 'get_list_compilations', 'uses' => 'CompilationController@list'));
 	Route::any('edit/{compilationId}', array('as' => 'post_edit_compilation', 'uses' => 'CompilationController@edit'));
+	Route::any('delete/{compilationId}', array('as' => 'post_delete_compilation', 'uses' => 'CompilationController@delete'));
 });
 
 Route::group(['prefix' => 'orders'], function () {

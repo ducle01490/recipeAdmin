@@ -1,5 +1,11 @@
 @extends('layouts.master')
 
+@section('css')
+
+<link rel="stylesheet" href="{{asset('bower_components/select2/dist/css/select2.min.css')}}">
+
+@endsection
+
 @section('content')
 
 <section class="content">
@@ -18,69 +24,69 @@
             </div>
             <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
             <div class="input-group-btn">
-   compilationsbutton type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-            </div>
-          </div>
+             compilationsbutton type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+           </div>
+         </div>
 
-          <div class="box-tools">
+         <div class="box-tools">
 
-          </div>
+         </div>
 
-        </div>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body table-responsive no-padding">
-        <div id="helper-text"></div>
-        <table class="table table-hover table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Tiêu đề</th>
-              <th>Ảnh thumb</th>
-              <th>Video</th>
-              <th>Trạng thái</th>
-              <th>Cập nhật</th>
-              <th></th>
-            </tr>
-          </thead>
-          @foreach($compilations as $recipe)
-          <tr id="row-{{$recipe->id}}">
-            <td>{{$recipe->id}}</td>
-            <td class="title">{{$recipe->title}}</td>
-            <td><img class="image" src="{{$recipe->thumb}}" style="height: 90px; width: auto;"></img></td>
-            <td><a href="{{$recipe->video}}" target="_blank">{{$recipe->video}}</a></td>
-            <td>
-              @if($recipe->status == 1)
-              <span class="text-green">Publish</span>
-              @else
-              <span class="text-yellow">Unpublish</span>
-              @endif
-            </td>
-            <td>
-              @if($recipe->status == 0)
-              <a href="{{route("update_recipe_status", array("recipeId" => $recipe->id, "status" => 1))}}" class="btn btn-xs btn-danger">Publish</a>
-              @else
-              <a href="{{route("update_recipe_status", array("recipeId" => $recipe->id, "status" => 0))}}" class="btn btn-xs btn-warning">Unpublish</a>
-              @endif
-            </td>
-            <td>{{$recipe->updated_at}}</td>
-            <td>
-              <a href="{{route('post_edit_compilation', $recipe->id)}}" class="btn btn-xs btn-primary">Update</a>
-              <button class="btn btn-xs btn-danger" id="delete" data-recipe-id={{$recipe->id}} data-toggle="modal" data-target="#confirm-delete">Delete</button>
-            </td>
+       </div>
+     </div>
+     <!-- /.box-header -->
+     <div class="box-body table-responsive no-padding">
+      <div id="helper-text"></div>
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tiêu đề</th>
+            <th>Ảnh thumb</th>
+            <th>Video</th>
+            <th>Trạng thái</th>
+            <th>Cập nhật</th>
+            <th></th>
           </tr>
-          @endforeach
-        </table>
-      </div>
-      <!-- /.box-body -->
-
-      <div class="box-footer clearfix">
-        {{ $compilations->links() }}
-      </div>
-      <!-- /.box-footer -->
+        </thead>
+        @foreach($compilations as $recipe)
+        <tr id="row-{{$recipe->id}}">
+          <td>{{$recipe->id}}</td>
+          <td class="title">{{$recipe->title}}</td>
+          <td><img class="image" src="{{$recipe->thumb}}" style="height: 90px; width: auto;"></img></td>
+          <td style="max-width: 100px; word-wrap: break-word;"><a href="{{$recipe->video}}" target="_blank">{{$recipe->video}}</a></td>
+          <td>
+            @if($recipe->status == 1)
+            <span class="text-green">Publish</span>
+            @else
+            <span class="text-yellow">Unpublish</span>
+            @endif
+          </td>
+          <td>
+            @if($recipe->status == 0)
+            <a href="{{route("update_recipe_status", array("recipeId" => $recipe->id, "status" => 1))}}" class="btn btn-xs btn-danger">Publish</a>
+            @else
+            <a href="{{route("update_recipe_status", array("recipeId" => $recipe->id, "status" => 0))}}" class="btn btn-xs btn-warning">Unpublish</a>
+            @endif
+          </td>
+          <td>{{$recipe->updated_at}}</td>
+          <td>
+            <a href="{{route('post_edit_compilation', $recipe->id)}}" class="btn btn-xs btn-primary">Update</a>
+            <button class="btn btn-xs btn-danger" id="delete" data-recipe-id={{$recipe->id}} data-toggle="modal" data-target="#confirm-delete">Delete</button>
+          </td>
+        </tr>
+        @endforeach
+      </table>
     </div>
-    <!-- /.box -->
+    <!-- /.box-body -->
+
+    <div class="box-footer clearfix">
+      {{ $compilations->links() }}
+    </div>
+    <!-- /.box-footer -->
   </div>
+  <!-- /.box -->
+</div>
 </div>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-recipe-id="-1">
@@ -90,8 +96,20 @@
         Xoá item
       </div>
       <div class="modal-body">
-        <img id="deleteImg" src="" style="height: 100px; width: auto;">
-        <div>Bạn có chắc chắn xoá không?</div>
+        <div class="row">
+          <div class="col-xs-2">
+            <img id="deleteImg" src="" style="height: 100%; width: 100%;">
+          </div>
+          <div class="col-xs-10">
+            <div>
+              <span>Xoá luôn các thực đơn liên quan:</span>
+              <select class="form-control select2" style="width: 100%;" id="formSelect">
+                <option selected="selected" value="0">Xoá luôn</option>
+                <option value="1">Chỉ cập nhật</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -107,6 +125,8 @@
 
 @section('script')
 
+<script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+
 <script type="text/javascript">
   $(document).ready(function(){
     $.ajaxSetup({
@@ -114,6 +134,9 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
+
+    $('.select2').select2();
+
   //triggered when modal is about to be shown
   $('#confirm-delete').on('show.bs.modal', function(e) {
 
@@ -129,11 +152,12 @@
 
   $("#deleteButton").on("click", function(e) {
     var recipeId = $("#confirm-delete").attr('data-recipe-id');
+    var deleteAction = $("#formSelect").val();
     console.log("delete: " + recipeId);
 
     // AJAX request
     $.ajax({
-      url: '/recipes/delete/' + recipeId,
+      url: '/compilations/delete/' + recipeId + '?action=' + deleteAction,
       type: 'POST',
       contentType: false,
       processData: false,
@@ -144,16 +168,17 @@
           $("#row-"+response["recipeId"]).remove();
 
           var html = '<div class="alert alert-success alert-dismissible" style="margin: 10px;">'
-                + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
-                + response["messages"]
-              + '</div>';
+          + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+          + response["messages"]
+          + '</div>';
 
           $("#helper-text").html(html);
+          location.reload();
         } else{
-                    var html = '<div class="alert alert-danger alert-dismissible" style="margin: 10px;">'
-                + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
-                + 'Lỗi xảy ra'
-              + '</div>';
+          var html = '<div class="alert alert-danger alert-dismissible" style="margin: 10px;">'
+          + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+          + 'Lỗi xảy ra'
+          + '</div>';
 
           $("#helper-text").html(html);
         }

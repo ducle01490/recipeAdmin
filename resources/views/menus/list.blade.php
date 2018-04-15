@@ -68,7 +68,7 @@
             <td>
               {!!substr($menuItem->preparation, 0, strpos($menuItem->preparation, '</li>'))!!}...
             </td>
-            <td><a href="{{$menuItem->video}}" target="_blank">{{$menuItem->video}}</a></td>
+            <td style="max-width: 100px; word-wrap: break-word;"><a href="{{$menuItem->video}}" target="_blank">{{$menuItem->video}}</a></td>
             <td>{{number_format($menuItem->price, 0, ',', '.')}} VNĐ</td>
             <td>
               @if($menuItem->status == 1)
@@ -111,9 +111,18 @@
         Xoá item
       </div>
       <div class="modal-body">
-        <img id="deleteImg" src="" style="height: 100px; width: auto;">
-        <div>Bạn có chắc chắn xoá không?</div>
+        <div class="row">
+          <div class="col-xs-2">
+            <img id="deleteImg" src="" style="height: 100%; width: 100%;">
+          </div>
+          <div class="col-xs-10">
+            <div>
+              <div>Bạn có chắc chắn xoá không?</div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <a class="btn btn-danger btn-ok" id="deleteButton">Delete</a>
