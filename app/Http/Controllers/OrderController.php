@@ -46,7 +46,7 @@ class OrderController extends Controller
         $orders = DB::table('orders')
             ->join('customers', 'orders.customerId', '=', 'customers.id')
             ->join('menus', 'orders.productId', '=', 'menus.id')
-            ->select('orders.*', 'customers.name', 'customers.phone', 'customers.address', 'menus.title')
+            ->select('orders.*', 'customers.name', 'customers.phone', 'customers.address', 'menus.title', 'menus.price')
             ->paginate(15);
 
         return view('orders.list', compact('menu', 'orders'));

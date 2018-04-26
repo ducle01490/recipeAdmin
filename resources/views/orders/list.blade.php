@@ -27,6 +27,7 @@
               <th>Khách hàng</th>
               <th>Điện thoại</th>
               <th>Địa chỉ</th>
+              <th>Số lượng</th>
               <th>Hàng</th>
               <th>Loại</th>
               <th>Ghi chú (Khách hàng)</th>
@@ -42,6 +43,13 @@
             <td>{{$order->name}}</td>
             <td>{{$order->phone}}</td>
             <td>{{$order->address}}</td>
+            <td><b>{{$order->quantity}}</b>
+              @if($order->quantity == 1)
+                - (2 serving)
+              @else
+                - (4 serving)
+              @endif
+            </td>
             <td><a href="#">{{$order->title}}</a></td>
             <td>
               @if($order->productType == 0)
@@ -53,7 +61,7 @@
 
             <td>{{$order->userNote}}</td>
             <td>{{$order->adminNote}}</td>
-            <td>--</td>
+            <td>{{number_format($order->price * $order->quantity, 0, ',', '.')}} đ</td>
             <td>
               @if($order->status == 0)
               <span class="text-orange">Mới</span>
