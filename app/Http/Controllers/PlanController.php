@@ -83,6 +83,14 @@ class PlanController extends Controller
 
         if ($request->isMethod('post'))
         {
+            $date = new Carbon(Input::get('publishDate'));
+            $date->format('Y-m-d H:i:s');
+            $tomorrow = $date->toDateString() . ' 23:59:59';
+            $menus = Menu::where('publishDate', '>=', $date->toDateString())->where('publishDate', '<=', $tomorrow)->get();
+            if (count($menus) > 0) {
+                return Redirect::back()->with('flash_error', 'Đã có menu trong ngày này rồi!');
+            }
+
             $menuItem = new Menu();
             $menuItem->title = Input::get('title');
             $menuItem->thumb = Input::get('thumb');
@@ -116,6 +124,16 @@ class PlanController extends Controller
 
         if ($request->isMethod('post'))
         {
+            $date = new Carbon(Input::get('publishDate'));
+            $date->format('Y-m-d H:i:s');
+
+            $tomorrow = $date->toDateString() . ' 23:59:59';
+
+            $tmpMenu = Menu::where('publishDate', '>=', $date->toDateString())->where('publishDate', '<=', $tomorrow)->first();
+            if (!is_null($tmpMenu) && $tmpMenu->id != $menuId) {
+                return Redirect::back()->with('flash_error', 'Đã có menu trong ngày này rồi!');
+            }
+
             $menuItem->title = Input::get('title');
             $menuItem->thumb = Input::get('thumb');
             $menuItem->ingredient = Input::get('ingredient');
@@ -125,8 +143,8 @@ class PlanController extends Controller
             $menuItem->serving = Input::get('serving');
             $menuItem->status = Input::get('status');
 
-            $date = new Carbon(Input::get('publishDate'));
-            $date->format('Y-m-d H:i:s');
+            // $date = new Carbon(Input::get('publishDate'));
+            // $date->format('Y-m-d H:i:s');
             $menuItem->publishDate = $date;
 
             $menuItem->save();
