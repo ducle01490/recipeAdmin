@@ -79,7 +79,7 @@
 
           <div class="form-group">
            <div style="padding-bottom: 6px;">
-            <label for="ingredient">Các bước tiến hành: </label>
+            <label for="preparation">Các bước tiến hành: </label>
           </div>
 
           <textarea id="preparation" class="form-control" style="height: 250px" name="preparation">

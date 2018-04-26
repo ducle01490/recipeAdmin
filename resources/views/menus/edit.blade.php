@@ -79,11 +79,11 @@
 
                 <div class="form-group">
                  <div style="padding-bottom: 6px;">
-                    <label for="ingredient">Các bước tiến hành: </label>
+                    <label for="preparation">Các bước tiến hành: </label>
                 </div>
 
                   <textarea id="preparation" class="form-control" style="height: 250px" name="preparation">
-                  {{old('ingredient')?old('ingredient'):$menuItem->ingredient}}</textarea>
+                  {{old('preparation')?old('preparation'):$menuItem->preparation}}</textarea>
                 </div>
 
                 <div class="form-group">
